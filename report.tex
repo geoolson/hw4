@@ -1,0 +1,139 @@
+\documentclass[12pt]{article}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[latin1]{inputenc}
+
+\title{CS350 Homework 3}
+\author{Geoffrey Olson Jr.}
+\date{02/27/2019}
+
+\begin{document}
+\maketitle
+\textbf{Problem 1: Prim's Algorithm}
+For implementing Prim's Algorithm I referenced section 9.1 in the Third Edition of "The Design and Analysis of Algorithms" and a step by step visualization and explanation of Prim's algorithm  at:
+\newline
+\url{https://www.youtube.com/watch?v=cplfcGZmX7I}
+
+For this algorithm I chose python for the ease of building a graph. Python's built in hash table ADT called the dictionary and the list ADT makes building a graph straightforward. The dictionary has an average case of O(1) access time and the list ADT has an access time of O(1) in python.
+\url{https://wiki.python.org/moin/TimeComplexity}
+These access times are beneficial for minimizing the complexity of this implementation. Using dictionary and list I was able to build an adjacency list to represent the graph.
+
+For the output the python script prints the minimum spanning tree into a dot file format. This file can be compiled into a visualized graph with the weighted edges labeled on the linux servers via : 
+\begin{lstlisting}
+$ python3 hw4.py > mst.dot
+$ dot -Tpdf mst.dot -o mst.pdf
+\end{lstlisting}
+
+city-pairs.txt must also be in the same directory to run the script or you can use a different file if you provide the name of the file as the first argument and the root city as the second argument into the script like so:
+\begin{lstlisting}
+$ python3 hw4.py [filename] [root city] > mst.dot
+\end{lstlisting}
+
+The most challenging part of this assignment was learning how the algorithm works. Once I understood the algorithm most of the coding was straight-forward.
+
+\textbf{Examples}
+Here are some examples outputs of the script. These are the raw dot files:
+
+\textbf{root :} Portland
+\begin{lstlisting}
+graph prim {
+"Portland" -- "Gresham" [label=14];
+"Portland" -- "Forest.Grove" [label=23];
+"Portland" -- "Newberg" [label=23];
+"Newberg" -- "McMinnville" [label=14];
+"Newberg" -- "Woodburn" [label=19];
+"Woodburn" -- "Salem" [label=17];
+"Salem" -- "Albany" [label=24];
+"Albany" -- "Corvallis" [label=11];
+"Corvallis" -- "Eugene" [label=40];
+"Corvallis" -- "Newport" [label=53];
+"Eugene" -- "Springfield" [label=4];
+"Forest.Grove" -- "Tillamook" [label=52];
+"Newport" -- "Florence" [label=50];
+"Florence" -- "Coos.Bay" [label=48];
+"Tillamook" -- "Astoria" [label=66];
+"Springfield" -- "Roseburg" [label=68];
+"Roseburg" -- "Grants.Pass" [label=68];
+"Grants.Pass" -- "Medford" [label=29];
+"Medford" -- "Ashland" [label=12];
+"Ashland" -- "Klamath.Falls" [label=64];
+"Gresham" -- "The.Dalles" [label=73];
+"The.Dalles" -- "Redmond" [label=114];
+"The.Dalles" -- "Pendleton" [label=125];
+"Redmond" -- "Bend" [label=16];
+"Pendleton" -- "La.Grande" [label=52];
+"La.Grande" -- "Baker.City" [label=44];
+"Baker.City" -- "Ontario" [label=72];
+"Ontario" -- "Burns" [label=130];
+}
+\end{lstlisting}
+\textbf{root :} Bend
+\begin{lstlisting}
+graph prim {
+"Bend" -- "Redmond" [label=16];
+"Bend" -- "Burns" [label=130];
+"Redmond" -- "The.Dalles" [label=114];
+"The.Dalles" -- "Gresham" [label=73];
+"The.Dalles" -- "Pendleton" [label=125];
+"Gresham" -- "Portland" [label=14];
+"Portland" -- "Forest.Grove" [label=23];
+"Portland" -- "Newberg" [label=23];
+"Newberg" -- "McMinnville" [label=14];
+"Newberg" -- "Woodburn" [label=19];
+"Woodburn" -- "Salem" [label=17];
+"Salem" -- "Albany" [label=24];
+"Albany" -- "Corvallis" [label=11];
+"Corvallis" -- "Eugene" [label=40];
+"Corvallis" -- "Newport" [label=53];
+"Eugene" -- "Springfield" [label=4];
+"Forest.Grove" -- "Tillamook" [label=52];
+"Newport" -- "Florence" [label=50];
+"Florence" -- "Coos.Bay" [label=48];
+"Tillamook" -- "Astoria" [label=66];
+"Springfield" -- "Roseburg" [label=68];
+"Roseburg" -- "Grants.Pass" [label=68];
+"Grants.Pass" -- "Medford" [label=29];
+"Medford" -- "Ashland" [label=12];
+"Ashland" -- "Klamath.Falls" [label=64];
+"Pendleton" -- "La.Grande" [label=52];
+"La.Grande" -- "Baker.City" [label=44];
+"Baker.City" -- "Ontario" [label=72];
+}
+\end{lstlisting}
+\textbf{root :} Albany
+\begin{lstlisting}
+graph prim {
+"Albany" -- "Corvallis" [label=11];
+"Albany" -- "Salem" [label=24];
+"Salem" -- "Woodburn" [label=17];
+"Woodburn" -- "Newberg" [label=19];
+"Newberg" -- "McMinnville" [label=14];
+"Newberg" -- "Portland" [label=23];
+"Portland" -- "Gresham" [label=14];
+"Portland" -- "Forest.Grove" [label=23];
+"Corvallis" -- "Eugene" [label=40];
+"Corvallis" -- "Newport" [label=53];
+"Eugene" -- "Springfield" [label=4];
+"Forest.Grove" -- "Tillamook" [label=52];
+"Newport" -- "Florence" [label=50];
+"Florence" -- "Coos.Bay" [label=48];
+"Tillamook" -- "Astoria" [label=66];
+"Springfield" -- "Roseburg" [label=68];
+"Roseburg" -- "Grants.Pass" [label=68];
+"Grants.Pass" -- "Medford" [label=29];
+"Medford" -- "Ashland" [label=12];
+"Ashland" -- "Klamath.Falls" [label=64];
+"Gresham" -- "The.Dalles" [label=73];
+"The.Dalles" -- "Redmond" [label=114];
+"The.Dalles" -- "Pendleton" [label=125];
+"Redmond" -- "Bend" [label=16];
+"Pendleton" -- "La.Grande" [label=52];
+"La.Grande" -- "Baker.City" [label=44];
+"Baker.City" -- "Ontario" [label=72];
+"Ontario" -- "Burns" [label=130];
+}
+\end{lstlisting}
+\end{document}
+
