@@ -35,17 +35,19 @@ def printPath(path):
     print("graph prim {")
     for v in path:
         for i in path[v]:
-            print(v + " -- " + i[0], end='')
+            print('"' + v + '"' + " -- " + '"' + i[0] + '"', end='')
             print(" [label=" + str(i[1]) + "];")
     print('}')
 
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
+    if len(sys.argv) > 2:
         f = sys.argv[1]
+        root = sys.argv[2]
     else:
         f = "city-pairs.txt"
+        root = "Albany"
     g = defaultdict(list)
     build(f, g)
-    path = mst(g, "Albany")
+    path = mst(g, root)
     printPath(path)
