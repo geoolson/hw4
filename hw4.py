@@ -1,4 +1,5 @@
 from collections import defaultdict
+import sys
 
 def build(f, g):
     f = open(f)
@@ -18,6 +19,7 @@ def mst(g, root):
         next = findMin(g, visited)
         visited.add(next[1][0])
         addEdge(path, next[0], next[1])
+    return path
 
 def findMin(g, visited):
     min = ("",float("inf"))
@@ -29,8 +31,21 @@ def findMin(g, visited):
                 vec = v
     return (vec, min)
 
+def printPath(path):
+    print("graph prim {")
+    for v in path:
+        for i in path[v]:
+            print(v + " -- " + i[0], end='')
+            print(" [label=" + str(i[1]) + "];")
+    print('}')
+
+
 if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        f = sys.argv[1]
+    else:
+        f = "city-pairs.txt"
     g = defaultdict(list)
-    f = "city-pairs.txt"
     build(f, g)
-    mst(g, "Albany")
+    path = mst(g, "Albany")
+    printPath(path)
