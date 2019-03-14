@@ -1,4 +1,3 @@
-import sys
 from collections import defaultdict
 
 def build(f, g):
@@ -15,17 +14,17 @@ def mst(g, root):
     visited = set()
     path = defaultdict(list)
     visited.add(root)
-    next = findMin(g, visited)
-    visited.add(next[0])
-    addEdge(path, next[0], next[1])
-
+    while len(visited) != len(g.keys()):
+        next = findMin(g, visited)
+        visited.add(next[1][0])
+        addEdge(path, next[0], next[1])
 
 def findMin(g, visited):
     min = ("",float("inf"))
     vec = ""
     for v in visited:
         for i in g[v]:
-            if i[1] < min[1] and i is not visited:
+            if i[1] < min[1] and i[0] not in visited:
                 min = i
                 vec = v
     return (vec, min)
